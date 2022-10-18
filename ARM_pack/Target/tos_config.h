@@ -52,7 +52,7 @@
 #define TOS_CFG_PRIORITY_MESSAGE_QUEUE_EN      0
 
 /*---------- set the OS clock freq,should be same of MCU core  -----------*/
-#define TOS_CFG_CPU_CLOCK      80000000
+#define TOS_CFG_CPU_CLOCK      180000000
 
 /*----------   -----------*/
 #define TOS_CFG_MSG_POOL_SIZE      10
