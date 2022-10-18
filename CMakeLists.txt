@@ -1,7 +1,7 @@
 #THIS FILE IS AUTO GENERATED FROM THE TEMPLATE! DO NOT CHANGE!
 set(CMAKE_SYSTEM_NAME Generic)
 set(CMAKE_SYSTEM_VERSION 1)
-cmake_minimum_required(VERSION 3.22)
+cmake_minimum_required(VERSION 3.23)
 
 # specify cross-compilers and tools
 set(CMAKE_C_COMPILER arm-none-eabi-gcc)
@@ -49,11 +49,11 @@ else ()
     add_compile_options(-Og -g)
 endif ()
 
-include_directories(Core/Inc Drivers/STM32F4xx_HAL_Driver/Inc Drivers/STM32F4xx_HAL_Driver/Inc/Legacy Drivers/CMSIS/Device/ST/STM32F4xx/Include Drivers/CMSIS/Include User)
+include_directories(Core/Inc Drivers/STM32F4xx_HAL_Driver/Inc Drivers/STM32F4xx_HAL_Driver/Inc/Legacy Drivers/CMSIS/Device/ST/STM32F4xx/Include Drivers/CMSIS/Include ARM_pack/Target Middlewares/Third_Party/Tencent_TencentOS_tiny_ARM_pack/Cmsis_os Middlewares/Third_Party/Tencent_TencentOS_tiny_ARM_pack/Kernel/hal/include Middlewares/Third_Party/Tencent_TencentOS_tiny_ARM_pack/Kernel/core/include Middlewares/Third_Party/Tencent_TencentOS_tiny_ARM_pack/Example Middlewares/Third_Party/Tencent_TencentOS_tiny_ARM_pack/Arch/arm/arm-v7m/cortex-m4/gcc Middlewares/Third_Party/Tencent_TencentOS_tiny_ARM_pack/Arch/arm/arm-v7m/common/include)
 
 add_definitions(-DDEBUG -DUSE_HAL_DRIVER -DSTM32F429xx)
 
-file(GLOB_RECURSE SOURCES "Core/*.*" "Drivers/*.*" "User/*.*")
+file(GLOB_RECURSE SOURCES "ARM_pack/*.*" "Core/*.*" "Middlewares/*.*" "Drivers/*.*")
 
 set(LINKER_SCRIPT ${CMAKE_SOURCE_DIR}/STM32F429IGTX_FLASH.ld)
 

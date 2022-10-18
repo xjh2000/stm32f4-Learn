@@ -22,7 +22,8 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "tos_k.h"
+#include "tos_klib.h"//For using the tos_kprintf function
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -32,6 +33,9 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
+#define APPLICATION_TASK_STK_SIZE       4096
+k_task_t application_task;
+uint8_t application_task_stk[APPLICATION_TASK_STK_SIZE];
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -48,15 +52,53 @@
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
+#define TASK1_STK_SIZE       1024
+k_task_t task1;
+uint8_t task1_stk[TASK1_STK_SIZE];
+
+
+#define TASK2_STK_SIZE       1024
+k_task_t task2;
+uint8_t task2_stk[TASK2_STK_SIZE];
+void Delay(__IO uint32_t nCount);
 
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-void Delay(__IO uint32_t nCount);
+
 void Delay(__IO uint32_t nCount)
 {
     while(nCount--){}
+}
+
+void task1_entry(void *arg)
+{
+    while (1) {
+        HAL_GPIO_WritePin(LED2_GPIO_Port,LED2_Pin,GPIO_PIN_SET);
+        Delay(0x7FFFFF);
+
+        HAL_GPIO_WritePin(LED2_GPIO_Port,LED2_Pin,GPIO_PIN_RESET);
+        Delay(0x7FFFFF);
+    }
+}
+
+void task2_entry(void *arg)
+{
+    while (1) {
+        HAL_GPIO_WritePin(LED1_GPIO_Port,LED1_Pin,GPIO_PIN_SET);
+        Delay(0x7FFFFF);
+
+        HAL_GPIO_WritePin(LED1_GPIO_Port,LED1_Pin,GPIO_PIN_RESET);
+        Delay(0x7FFFFF);
+    }
+}
+
+
+void application_entry(void *arg)
+{
+ // Create task1
+   // Create task2
 }
 /* USER CODE END 0 */
 
@@ -89,7 +131,11 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   /* USER CODE BEGIN 2 */
-
+    tos_kprintf("Welcome to TencentOS tiny\r\n");//printf
+    tos_knl_init(); // TencentOS Tiny kernel initialize
+    tos_task_create(&task1, "task1", task1_entry, NULL, 3, task1_stk, TASK1_STK_SIZE, 0);
+    tos_task_create(&task2, "task2", task2_entry, NULL, 3, task2_stk, TASK2_STK_SIZE, 0);
+    tos_knl_start();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -97,13 +143,7 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-      HAL_GPIO_WritePin(LED1_GPIO_Port,LED1_Pin,GPIO_PIN_SET);
-      HAL_GPIO_WritePin(LED2_GPIO_Port,LED2_Pin,GPIO_PIN_SET);
-      Delay(0x7FFFFF);
 
-      HAL_GPIO_WritePin(LED1_GPIO_Port,LED1_Pin,GPIO_PIN_RESET);
-      HAL_GPIO_WritePin(LED2_GPIO_Port,LED2_Pin,GPIO_PIN_RESET);
-      Delay(0x7FFFFF);
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
