@@ -18,6 +18,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "usart.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
@@ -25,6 +26,8 @@
 #include "tos_k.h"
 #include "tos_klib.h"//For using the tos_kprintf function
 #include "stdio.h"
+#include "sal_module_wrapper.h"
+#include "esp8266.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -67,6 +70,9 @@ uint8_t task1_stk[TASK1_STK_SIZE];
 k_task_t task2;
 uint8_t task2_stk[TASK2_STK_SIZE];
 
+#define RECV_LEN            1024
+uint8_t recv_data[RECV_LEN];
+
 void Delay(__IO uint32_t nCount);
 
 /* USER CODE END PFP */
@@ -79,15 +85,15 @@ void Delay(__IO uint32_t nCount) {
 }
 
 void task1_entry(void *arg) {
-    while (1) {
-        HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, GPIO_PIN_SET);
-        Delay(0x7FFFFF);
+    int count = 1;
+    int socket_id = -1;
+    int recv_len = -1;
 
-        HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, GPIO_PIN_RESET);
-        Delay(0x7FFFFF);
+    /* 通信模组初始化 */
+    esp8266_sal_init(HAL_UART_PORT_1);
 
-        printf("this is a test\r\n");
-    }
+    /* 入网 */
+    esp8266_join_ap("Mculover666","mculover666");
 }
 
 void task2_entry(void *arg) {
@@ -134,11 +140,13 @@ int main(void) {
 
     /* Initialize all configured peripherals */
     MX_GPIO_Init();
+    MX_USART3_UART_Init();
+    MX_USART1_UART_Init();
     /* USER CODE BEGIN 2 */
     tos_kprintf("Welcome to TencentOS tiny\r\n"); //printf
     tos_knl_init(); // TencentOS Tiny kernel initialize
     tos_task_create(&task1, "task1", task1_entry, NULL, 3, task1_stk, TASK1_STK_SIZE, 0);
-    tos_task_create(&task2, "task2", task2_entry, NULL, 3, task2_stk, TASK2_STK_SIZE, 0);
+//    tos_task_create(&task2, "task2", task2_entry, NULL, 3, task2_stk, TASK2_STK_SIZE, 0);
     tos_knl_start();
     /* USER CODE END 2 */
 

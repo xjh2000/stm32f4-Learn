@@ -20,7 +20,7 @@
 #define __TARGET/TOS_CONFIG__H__
 
 #ifdef __cplusplus
- extern "C" {
+extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
@@ -82,7 +82,7 @@
 #define TOS_CFG_MSG_EN      1
 
 /*---------- Default dynamic memory pool size  -----------*/
-#define TOS_CFG_MMHEAP_DEFAULT_POOL_SIZE      0x400
+#define TOS_CFG_MMHEAP_DEFAULT_POOL_SIZE      0x8000
 
 /*---------- Whether to enable the message queue module  -----------*/
 #define TOS_CFG_MESSAGE_QUEUE_EN      0
