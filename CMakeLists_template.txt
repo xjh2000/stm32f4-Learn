@@ -48,7 +48,7 @@ else ()
     add_compile_options(-Og -g)
 endif ()
 
-include_directories(${includes} User)
+include_directories(${includes} User Middlewares/Third_Party/qcloud-iot-sdk-tencent-at-based/include Middlewares/Third_Party/qcloud-iot-sdk-tencent-at-based/src/include)
 
 add_definitions(${defines})
 
