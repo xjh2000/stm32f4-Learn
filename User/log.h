@@ -65,9 +65,9 @@ void Log_writter(const char *file, const char *func, const int line, const int l
 void HexDump(const uint8_t *pData, unsigned int len);
 
 #define Log_d(args...) Log_writter(__FILE__, __FUNCTION__, __LINE__, LOG_DEBUG, args)
-#define Log_i(args...) Log_writter(__FILE__, __FUNCTION__, __LINE__, LOG_INFO, args)
-#define Log_w(args...) Log_writter(__FILE__, __FUNCTION__, __LINE__, LOG_WARN, args)
-#define Log_e(args...) Log_writter(__FILE__, __FUNCTION__, __LINE__, LOG_ERROR, args)
+#define Log_info(args...) Log_writter(__FILE__, __FUNCTION__, __LINE__, LOG_INFO, args)
+#define Log_warn(args...) Log_writter(__FILE__, __FUNCTION__, __LINE__, LOG_WARN, args)
+#define Log_error(args...) Log_writter(__FILE__, __FUNCTION__, __LINE__, LOG_ERROR, args)
 
 //#define DEBUG_EABLE
 #ifdef DEBUG_EABLE
