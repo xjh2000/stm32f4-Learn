@@ -17,16 +17,19 @@
   */
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
+
 #include "main.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include <stdio.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
+
+#define PUTCHAR_PROTOTYPE int __io_putchar(int ch)
 
 /* USER CODE END PTD */
 
@@ -54,10 +57,17 @@ void SystemClock_Config(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 void Delay(__IO uint32_t nCount);
-void Delay(__IO uint32_t nCount)
-{
-    while(nCount--){}
+
+void Delay(__IO uint32_t nCount) {
+    while (nCount--) {}
 }
+
+PUTCHAR_PROTOTYPE
+{
+    ITM_SendChar(ch);
+    return ch;
+}
+
 /* USER CODE END 0 */
 
 /**
@@ -94,18 +104,19 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  while (1)
-  {
+    while (1) {
     /* USER CODE END WHILE */
-      HAL_GPIO_WritePin(LED1_GPIO_Port,LED1_Pin,GPIO_PIN_SET);
-      HAL_GPIO_WritePin(LED2_GPIO_Port,LED2_Pin,GPIO_PIN_SET);
-      Delay(0x7FFFFF);
 
-      HAL_GPIO_WritePin(LED1_GPIO_Port,LED1_Pin,GPIO_PIN_RESET);
-      HAL_GPIO_WritePin(LED2_GPIO_Port,LED2_Pin,GPIO_PIN_RESET);
-      Delay(0x7FFFFF);
     /* USER CODE BEGIN 3 */
-  }
+        HAL_GPIO_WritePin(LED1_GPIO_Port,LED1_Pin,GPIO_PIN_SET);
+        HAL_GPIO_WritePin(LED2_GPIO_Port,LED2_Pin,GPIO_PIN_SET);
+        Delay(0x7FFFFF);
+
+        HAL_GPIO_WritePin(LED1_GPIO_Port,LED1_Pin,GPIO_PIN_RESET);
+        HAL_GPIO_WritePin(LED2_GPIO_Port,LED2_Pin,GPIO_PIN_RESET);
+        Delay(0x7FFFFF);
+        printf("** Test finished successfully. ** \n\r");
+    }
   /* USER CODE END 3 */
 }
 
@@ -172,11 +183,10 @@ void SystemClock_Config(void)
 void Error_Handler(void)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
-  /* User can add his own implementation to report the HAL error return state */
-  __disable_irq();
-  while (1)
-  {
-  }
+    /* User can add his own implementation to report the HAL error return state */
+    __disable_irq();
+    while (1) {
+    }
   /* USER CODE END Error_Handler_Debug */
 }
 
