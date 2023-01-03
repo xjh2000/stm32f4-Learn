@@ -7,12 +7,22 @@
 extern "C" {
 #endif
 
-#include <string.h>
-#include <stdio.h>
-#include <stdarg.h>
-#include <stdbool.h>
 #include "log.h"
+#include <stdio.h>
+#include <stdlib.h>
 
+#include <stdbool.h>
+#include <stdarg.h>
+#include <string.h>
+#include "stm32f4xx_hal.h"
+
+#define PUTCHAR_PROTOTYPE int __io_putchar(int ch)
+
+
+PUTCHAR_PROTOTYPE {
+    ITM_SendChar(ch);
+    return ch;
+}
 
 #define MAX_LOG_MSG_LEN            (512)
 

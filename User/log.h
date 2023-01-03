@@ -9,11 +9,7 @@
 extern "C" {
 #endif
 
-#include <stdio.h>
-#include <stdlib.h>
 #include <stdint.h>
-#include <stdbool.h>
-#include <stdarg.h>
 
 /**
  * 日志输出等级
@@ -32,16 +28,16 @@ extern LOG_LEVEL g_log_level;
 
 
 /**
- * @brief
+ * @brief 设置当前日志等级
  *
- * @param
+ * @param 日志等级
  */
 void Log_Set_Level(LOG_LEVEL level);
 
 /**
  * @brief 获取当前日志等级
  *
- * @return
+ * @return 日志等级
  */
 LOG_LEVEL Log_Get_Level(void);
 
@@ -72,29 +68,29 @@ void HexDump(const uint8_t *pData, unsigned int len);
 //#define DEBUG_EABLE
 #ifdef DEBUG_EABLE
 #define IOT_FUNC_ENTRY    \
-		{\
-		printf("FUNC_ENTRY:   %s L#%d \n", __FUNCTION__, __LINE__);  \
-		}
-	#define IOT_FUNC_EXIT    \
-		{\
-		printf("FUNC_EXIT:   %s L#%d \n", __FUNCTION__, __LINE__);  \
-		return;\
-		}
-	#define IOT_FUNC_EXIT_RC(x)    \
-		{\
-		printf("FUNC_EXIT:   %s L#%d Return Code : %ld \n", __FUNCTION__, __LINE__, (long)(x));  \
-		return x; \
-		}
+        {\
+        printf("FUNC_ENTRY:   %s L#%d \n", __FUNCTION__, __LINE__);  \
+        }
+#define IOT_FUNC_EXIT    \
+        {\
+        printf("FUNC_EXIT:   %s L#%d \n", __FUNCTION__, __LINE__);  \
+        return;\
+        }
+#define IOT_FUNC_EXIT_RC(x)    \
+        {\
+        printf("FUNC_EXIT:   %s L#%d Return Code : %ld \n", __FUNCTION__, __LINE__, (long)(x));  \
+        return x; \
+        }
 #else
 #define IOT_FUNC_ENTRY
-#define IOT_FUNC_EXIT 			\
-		{\
-			return;\
-		}
+#define IOT_FUNC_EXIT            \
+        {\
+            return;\
+        }
 #define IOT_FUNC_EXIT_RC(x)     \
-		{\
-			return x; \
-		}
+        {\
+            return x; \
+        }
 #endif
 
 #ifdef __cplusplus

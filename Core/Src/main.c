@@ -29,7 +29,6 @@
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
 
-#define PUTCHAR_PROTOTYPE int __io_putchar(int ch)
 
 /* USER CODE END PTD */
 
@@ -56,16 +55,6 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-void Delay(__IO uint32_t nCount);
-
-void Delay(__IO uint32_t nCount) {
-    while (nCount--) {}
-}
-
-PUTCHAR_PROTOTYPE {
-    ITM_SendChar(ch);
-    return ch;
-}
 
 /* USER CODE END 0 */
 
@@ -109,13 +98,13 @@ int main(void) {
         /* USER CODE END WHILE */
 
         /* USER CODE BEGIN 3 */
-        HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, GPIO_PIN_SET);
-        HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, GPIO_PIN_SET);
-        HAL_Delay(3000);
-
+        HAL_GPIO_WritePin(LED0_GPIO_Port, LED0_Pin, GPIO_PIN_SET);
         HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, GPIO_PIN_RESET);
-        HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, GPIO_PIN_RESET);
-        HAL_Delay(3000);
+        HAL_Delay(1000);
+
+        HAL_GPIO_WritePin(LED0_GPIO_Port, LED0_Pin, GPIO_PIN_RESET);
+        HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, GPIO_PIN_SET);
+        HAL_Delay(1000);
 
     }
     /* USER CODE END 3 */
