@@ -193,14 +193,16 @@ void EXTI3_IRQHandler(void) {
     /* USER CODE END EXTI3_IRQn 0 */
     HAL_GPIO_EXTI_IRQHandler(KEY0_Pin);
     /* USER CODE BEGIN EXTI3_IRQn 1 */
-
+    __HAL_GPIO_EXTI_CLEAR_FLAG(KEY0_Pin);
     /* USER CODE END EXTI3_IRQn 1 */
 }
 
 /* USER CODE BEGIN 1 */
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
     HAL_Delay(20);
-    // TODO 这里有个重入bug 搞不清楚为啥会一次中断，有时会调用2次，？？？？？
+    // 这里有个重入bug 搞不清楚为啥会一次中断，有时会调用2次，？？？？？
+    // 找到问题了 中断回调处理前标志位清除有抖动(清理不了)
+    // 解决方案 在中断回调处理后 再清理一次标志位 pass
     if (GPIO_Pin == KEY0_Pin) {
         HAL_GPIO_TogglePin(LED0_GPIO_Port, LED0_Pin);
         HAL_Delay(1000);
