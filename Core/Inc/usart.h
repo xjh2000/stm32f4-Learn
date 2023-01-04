@@ -35,6 +35,12 @@ extern "C" {
 extern UART_HandleTypeDef huart1;
 
 /* USER CODE BEGIN Private defines */
+#define RXBUFFERSIZE 1
+#define USART_REC_LEN 200
+
+extern uint32_t USART_RX_STA;
+extern uint8_t aRxBuffer[RXBUFFERSIZE];
+extern uint8_t USART_RX_BUF[USART_REC_LEN];
 
 /* USER CODE END Private defines */
 
