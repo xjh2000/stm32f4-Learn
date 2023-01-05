@@ -102,18 +102,18 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-//        if (USART_RX_STA & 0x8000) {
-//            len = USART_RX_STA & 0x3fff;//得到此次接收到的数据长度
-//            HAL_UART_Transmit(&huart1, (uint8_t *) USART_RX_BUF, len, 1000);
-////发�?�接收到的数�?
-//            while (__HAL_UART_GET_FLAG(&huart1,
-//                                       UART_FLAG_TC) != SET); //等待发�?�结�?
-//            USART_RX_STA = 0;
-//        } else {
-//            if (times % 30 == 0) { HAL_GPIO_TogglePin(LED0_GPIO_Port, LED0_Pin); }
-//            times++;
-//            HAL_Delay(10);
-//        }
+        if (USART_RX_STA & 0x8000) {
+            len = USART_RX_STA & 0x3fff;
+            HAL_UART_Transmit(&huart1, (uint8_t *) USART_RX_BUF, len, 1000);
+
+            while (__HAL_UART_GET_FLAG(&huart1,
+                                       UART_FLAG_TC) != SET);
+            USART_RX_STA = 0;
+        } else {
+            if (times % 30 == 0) { HAL_GPIO_TogglePin(LED0_GPIO_Port, LED0_Pin); }
+            times++;
+            HAL_Delay(10);
+        }
 
     }
   /* USER CODE END 3 */
