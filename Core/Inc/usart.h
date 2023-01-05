@@ -35,12 +35,12 @@ extern "C" {
 extern UART_HandleTypeDef huart1;
 
 /* USER CODE BEGIN Private defines */
-#define RXBUFFERSIZE 1
-#define USART_REC_LEN 200
+#define RXBUFFERSIZE 1 //串口1中断接受缓冲区的大小
+#define USART_REC_LEN 200 //串口接受缓冲区大小
 
-extern uint32_t USART_RX_STA;
-extern uint8_t aRxBuffer[RXBUFFERSIZE];
-extern uint8_t USART_RX_BUF[USART_REC_LEN];
+extern uint32_t USART_RX_STA; //串口接受的一个标识位 ,[15]接收到/r/n,[14]接收到/r,[13,0]接收到的数据数量
+extern uint8_t aRxBuffer[RXBUFFERSIZE];//串口1接受中断用的数据缓冲区
+extern uint8_t USART_RX_BUF[USART_REC_LEN];//串口数据接受的缓冲存储区
 
 /* USER CODE END Private defines */
 
