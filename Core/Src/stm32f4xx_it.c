@@ -222,8 +222,6 @@ void USART1_IRQHandler(void)
   /* USER CODE END USART1_IRQn 0 */
   HAL_UART_IRQHandler(&huart1);
   /* USER CODE BEGIN USART1_IRQn 1 */
-    
-    Log_info("USART1_IRQHandler entry");
   /* USER CODE END USART1_IRQn 1 */
 }
 
@@ -242,6 +240,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
     if (huart->Instance == USART1) {
         HAL_UART_Receive_IT(&huart1, (uint8_t *) aRxBuffer, RXBUFFERSIZE);
+
         if ((USART_RX_STA & 0x8000) == 0) {
             if (USART_RX_STA & 0x4000) {
                 if (aRxBuffer[0] != 0x0a)USART_RX_STA = 0;
