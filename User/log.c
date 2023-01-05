@@ -35,8 +35,11 @@ PUTCHAR_PROTOTYPE {
 #define MAX_LOG_MSG_LEN                  (1023)
 #endif
 
+//static char *level_str[] = {
+//        "#GRN#", "#GRN#", "#ORG#", "#RED#",
+//};
 static char *level_str[] = {
-        "#GRN#", "#GRN#", "#ORG#", "#RED#",
+        "DEBUG", "INFO", "WARNING", "ERROR",
 };
 
 LOG_LEVEL g_log_level = LOG_DEBUG;
