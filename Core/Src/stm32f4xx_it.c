@@ -200,20 +200,6 @@ void SysTick_Handler(void)
 /******************************************************************************/
 
 /**
-  * @brief This function handles EXTI line3 interrupt.
-  */
-void EXTI3_IRQHandler(void)
-{
-  /* USER CODE BEGIN EXTI3_IRQn 0 */
-
-  /* USER CODE END EXTI3_IRQn 0 */
-  HAL_GPIO_EXTI_IRQHandler(KEY0_Pin);
-  /* USER CODE BEGIN EXTI3_IRQn 1 */
-    __HAL_GPIO_EXTI_CLEAR_FLAG(KEY0_Pin);
-  /* USER CODE END EXTI3_IRQn 1 */
-}
-
-/**
   * @brief This function handles USART1 global interrupt.
   */
 void USART1_IRQHandler(void)
@@ -226,16 +212,6 @@ void USART1_IRQHandler(void)
 }
 
 /* USER CODE BEGIN 1 */
-void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
-    HAL_Delay(20);
-    // this have a bug, some time will be call twice
-    // find the program is anti shake, clean flag some time is not work that I think
-    // the solution is clean the flag again in the interrupt handler
-    if (GPIO_Pin == KEY0_Pin) {
-        HAL_GPIO_TogglePin(LED0_GPIO_Port, LED0_Pin);
-        HAL_Delay(1000);
-    }
-}
 
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
     if (huart->Instance == USART1) {
