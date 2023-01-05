@@ -16,11 +16,15 @@ extern "C" {
 #include <string.h>
 #include "stm32f4xx_hal.h"
 
+#include "usart.h"
+
 #define PUTCHAR_PROTOTYPE int __io_putchar(int ch)
 
+uint8_t g_uart1_transmit_buff[1];
 
 PUTCHAR_PROTOTYPE {
-    ITM_SendChar(ch);
+    g_uart1_transmit_buff[0] = (uint8_t) ch;
+    HAL_UART_Transmit(&huart1, g_uart1_transmit_buff, 1, 100);
     return ch;
 }
 
