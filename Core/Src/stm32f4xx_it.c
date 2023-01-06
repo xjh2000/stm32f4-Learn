@@ -251,5 +251,10 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
     }
 }
 
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
+    if (htim == (&htim3)) {
+        HAL_GPIO_TogglePin(LED0_GPIO_Port, LED0_Pin);
+    }
+}
 
 /* USER CODE END 1 */
