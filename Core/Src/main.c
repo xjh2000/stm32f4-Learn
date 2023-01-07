@@ -90,10 +90,8 @@ int main(void) {
     MX_USART1_UART_Init();
     MX_TIM5_Init();
     /* USER CODE BEGIN 2 */
-
-    extern uint8_t TIM5CH1_CAPTURE_STA;
-    extern uint32_t TIM5CH1_CAPTURE_VAL;
-    long long temp;
+    int32_t oldCount = 0;
+    int32_t currentCount = 0;
     /* USER CODE END 2 */
 
     /* Infinite loop */
@@ -102,13 +100,10 @@ int main(void) {
         /* USER CODE END WHILE */
 
         /* USER CODE BEGIN 3 */
-        if (TIM5CH1_CAPTURE_STA & 0X80) //成功捕获到了一次高电平
-        {
-            temp = TIM5CH1_CAPTURE_STA & 0X3F;
-            temp *= 0XFFFFFFFF; //溢出时间总和
-            temp += TIM5CH1_CAPTURE_VAL; //得到总的高电平时间
-            printf("HIGH:%lld us\r\n", temp); //打印总的高点平时间
-            TIM5CH1_CAPTURE_STA = 0; //开启下一次捕获
+        currentCount = __HAL_TIM_GET_COUNTER(&htim5);
+        if (currentCount != oldCount) {
+            Log_info("Current count : %ld", currentCount);
+            oldCount = currentCount;
         }
     }
     /* USER CODE END 3 */
