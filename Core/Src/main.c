@@ -57,7 +57,9 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+void TIM_SetTIM3Compare4(uint32_t compare) {
+    TIM3->CCR4 = compare;
+}
 /* USER CODE END 0 */
 
 /**
@@ -91,7 +93,8 @@ int main(void)
   MX_USART1_UART_Init();
   MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
-
+    uint8_t dir = 1;
+    uint32_t led0pwmval = 0;
 
   /* USER CODE END 2 */
 
@@ -102,6 +105,12 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 
+        HAL_Delay(10);
+        if (dir)led0pwmval++; //dir==1 led0pwmval 递增
+        else led0pwmval--; //dir==0 led0pwmval 递减
+        if (led0pwmval > 300)dir = 0; //led0pwmval 到达 300 后，方向为�?�减
+        if (led0pwmval == 0)dir = 1; //led0pwmval 递减�? 0 后，方向改为递增
+        TIM_SetTIM3Compare4(led0pwmval);//修改比较值，修改占空�?
     }
   /* USER CODE END 3 */
 }
