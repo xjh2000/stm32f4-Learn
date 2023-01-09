@@ -34,17 +34,35 @@ extern "C" {
 
 extern UART_HandleTypeDef huart1;
 
-/* USER CODE BEGIN Private defines */
-#define RXBUFFERSIZE 1 //串口1中断接受缓冲区的大小
-#define USART_REC_LEN 200 //串口接受缓冲区大�?
+extern UART_HandleTypeDef huart3;
 
-extern uint32_t USART_RX_STA; //串口接受的一个标识位 ,[15]接收�?/r/n,[14]接收�?/r,[13,0]接收到的数据数量
-extern uint8_t aRxBuffer[RXBUFFERSIZE];//串口1接受中断用的数据缓冲�?
-extern uint8_t USART_RX_BUF[USART_REC_LEN];//串口数据接受的缓冲存储区
+/* USER CODE BEGIN Private defines */
+
+/**
+ * @brief receive CRLF end string with uart
+ * @property receiveCR CR = 0x0d <br> receiveCRLF LF = 0x0a <br> itBuff interrupt handler function to use <br> data callback function to use
+ *
+ */
+typedef struct {
+    uint8_t receiveCR; // CR = 0x0d
+    uint8_t receiveCRLF; // LF = 0x0a
+    uint8_t itBuff;
+    uint8_t dataMaxLen;
+    uint8_t dataLen;
+    uint8_t *data;
+    UART_HandleTypeDef *handle;
+} Uart_Receive_CRLF;
+
+extern Uart_Receive_CRLF uart1ReceiveData;
+extern Uart_Receive_CRLF uart3ReceiveData;
+
+void Uart_Receive_CRLF_Clean(Uart_Receive_CRLF *uart_rec);
 
 /* USER CODE END Private defines */
 
 void MX_USART1_UART_Init(void);
+
+void MX_USART3_UART_Init(void);
 
 /* USER CODE BEGIN Prototypes */
 

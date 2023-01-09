@@ -18,7 +18,6 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "tim.h"
 #include "usart.h"
 #include "gpio.h"
 
@@ -88,10 +87,9 @@ int main(void) {
     /* Initialize all configured peripherals */
     MX_GPIO_Init();
     MX_USART1_UART_Init();
-    MX_TIM5_Init();
+    MX_USART3_UART_Init();
     /* USER CODE BEGIN 2 */
-    int32_t oldCount = 0;
-    int32_t currentCount = 0;
+
     /* USER CODE END 2 */
 
     /* Infinite loop */
@@ -100,10 +98,19 @@ int main(void) {
         /* USER CODE END WHILE */
 
         /* USER CODE BEGIN 3 */
-        currentCount = __HAL_TIM_GET_COUNTER(&htim5);
-        if (currentCount != oldCount) {
-            Log_info("Current count : %ld", currentCount);
-            oldCount = currentCount;
+        if (uart1ReceiveData.receiveCRLF) {
+            HAL_UART_Transmit(uart3ReceiveData.handle, uart1ReceiveData.data, uart1ReceiveData.dataLen,
+                              100); // translate uart1 receive data to uart3
+
+            HAL_UART_Transmit(uart3ReceiveData.handle, (uint8_t *) "\r\n", 2, 100);
+            Uart_Receive_CRLF_Clean(&uart1ReceiveData);
+        }
+        if (uart3ReceiveData.receiveCRLF) {
+
+            HAL_UART_Transmit(uart1ReceiveData.handle, uart3ReceiveData.data, uart3ReceiveData.dataLen,
+                              100); // translate uart3 receive data to uart1
+
+            Uart_Receive_CRLF_Clean(&uart3ReceiveData);
         }
     }
     /* USER CODE END 3 */

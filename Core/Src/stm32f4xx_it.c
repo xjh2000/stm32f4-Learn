@@ -58,6 +58,7 @@
 
 /* External variables --------------------------------------------------------*/
 extern UART_HandleTypeDef huart1;
+extern UART_HandleTypeDef huart3;
 /* USER CODE BEGIN EV */
 
 /* USER CODE END EV */
@@ -211,30 +212,21 @@ void USART1_IRQHandler(void)
   /* USER CODE END USART1_IRQn 1 */
 }
 
-/* USER CODE BEGIN 1 */
+/**
+  * @brief This function handles USART3 global interrupt.
+  */
+void USART3_IRQHandler(void)
+{
+  /* USER CODE BEGIN USART3_IRQn 0 */
 
-void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
-    if (huart->Instance == USART1) {
-        // when this is called , the reception interrupt have been closed,
-        // so we need to open again, for next data receive
-        HAL_UART_Receive_IT(&huart1, (uint8_t *) aRxBuffer, RXBUFFERSIZE);
+  /* USER CODE END USART3_IRQn 0 */
+  HAL_UART_IRQHandler(&huart3);
+  /* USER CODE BEGIN USART3_IRQn 1 */
 
-        if ((USART_RX_STA & 0x8000) == 0) {
-            if (USART_RX_STA & 0x4000) {
-                if (aRxBuffer[0] != 0x0a)USART_RX_STA = 0;
-                else USART_RX_STA |= 0x8000;
-            } else {
-                if (aRxBuffer[0] == 0x0d)USART_RX_STA |= 0x4000;
-                else {
-                    USART_RX_BUF[USART_RX_STA & 0X3FFF] = aRxBuffer[0];
-                    USART_RX_STA++;
-                    if (USART_RX_STA > (USART_REC_LEN - 1))USART_RX_STA = 0;
-                }
-            }
-        }
-
-    }
+  /* USER CODE END USART3_IRQn 1 */
 }
+
+/* USER CODE BEGIN 1 */
 
 
 /* USER CODE END 1 */
