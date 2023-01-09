@@ -34,6 +34,8 @@ extern "C" {
 
 extern UART_HandleTypeDef huart1;
 
+extern UART_HandleTypeDef huart2;
+
 extern UART_HandleTypeDef huart3;
 
 /* USER CODE BEGIN Private defines */
@@ -53,15 +55,32 @@ typedef struct {
     UART_HandleTypeDef *handle;
 } Uart_Receive_CRLF;
 
-extern Uart_Receive_CRLF uart1ReceiveData;
+typedef struct {
+    uint8_t receiveSuccess;
+    uint8_t itBuff;
+    uint8_t dataMaxLen;
+    uint8_t dataLen;
+    uint8_t *data;
+    UART_HandleTypeDef *handle;
+} Uart_Receive_M4255;
+
+
+extern Uart_Receive_M4255 uart1ReceiveData;
+extern Uart_Receive_M4255 uart2ReceiveData;
 extern Uart_Receive_CRLF uart3ReceiveData;
 
 void Uart_Receive_CRLF_Clean(Uart_Receive_CRLF *uart_rec);
 
+void Uart_Receive_CRLF_Callback(Uart_Receive_CRLF *uart_rec);
+
+void Uart_Receive_M4255_Clean(Uart_Receive_M4255 *uart_rec);
+
+void Uart_Receive_M4255_Callback(Uart_Receive_M4255 *uart_rec);
+
 /* USER CODE END Private defines */
 
 void MX_USART1_UART_Init(void);
-
+void MX_USART2_UART_Init(void);
 void MX_USART3_UART_Init(void);
 
 /* USER CODE BEGIN Prototypes */
