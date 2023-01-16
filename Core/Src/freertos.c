@@ -171,9 +171,7 @@ void StartTask01(void const * argument)
   /* USER CODE BEGIN StartTask01 */
     /* Infinite loop */
     for (;;) {
-        for (int i = 0; i < 100000000; ++i) {
-
-        }
+        osDelay(1000);
         HAL_GPIO_TogglePin(LED0_GPIO_Port, LED0_Pin);
     }
   /* USER CODE END StartTask01 */
