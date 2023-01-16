@@ -47,14 +47,16 @@
 /* USER CODE BEGIN Variables */
 
 /* USER CODE END Variables */
-osThreadId defaultTaskHandle;
+osThreadId Task01Handle;
+osThreadId Task02Handle;
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
 
 /* USER CODE END FunctionPrototypes */
 
-void StartDefaultTask(void const * argument);
+void StartTask01(void const * argument);
+void StartTask02(void const * argument);
 
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
@@ -69,14 +71,12 @@ void vApplicationMallocFailedHook(void);
 
 /* USER CODE BEGIN 1 */
 /* Functions needed when configGENERATE_RUN_TIME_STATS is on */
-__weak void configureTimerForRunTimeStats(void)
-{
+__weak void configureTimerForRunTimeStats(void) {
 
 }
 
-__weak unsigned long getRunTimeCounterValue(void)
-{
-return 0;
+__weak unsigned long getRunTimeCounterValue(void) {
+    return 0;
 }
 /* USER CODE END 1 */
 
@@ -85,7 +85,7 @@ void vApplicationStackOverflowHook(xTaskHandle xTask, signed char *pcTaskName) {
     /* Run time stack overflow checking is performed if
     configCHECK_FOR_STACK_OVERFLOW is defined to 1 or 2. This hook function is
     called if a stack overflow is detected. */
-    Log_warn("StackOverflowHook");
+    Log_warn("%s stack overflow", pcTaskName);
 }
 /* USER CODE END 4 */
 
@@ -145,9 +145,13 @@ void MX_FREERTOS_Init(void) {
   /* USER CODE END RTOS_QUEUES */
 
   /* Create the thread(s) */
-  /* definition and creation of defaultTask */
-  osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 128);
-  defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
+  /* definition and creation of Task01 */
+  osThreadDef(Task01, StartTask01, osPriorityNormal, 0, 128);
+  Task01Handle = osThreadCreate(osThread(Task01), NULL);
+
+  /* definition and creation of Task02 */
+  osThreadDef(Task02, StartTask02, osPriorityNormal, 0, 400);
+  Task02Handle = osThreadCreate(osThread(Task02), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
     /* add threads, ... */
@@ -155,22 +159,40 @@ void MX_FREERTOS_Init(void) {
 
 }
 
-/* USER CODE BEGIN Header_StartDefaultTask */
+/* USER CODE BEGIN Header_StartTask01 */
 /**
-  * @brief  Function implementing the defaultTask thread.
+  * @brief  Function implementing the Task01 thread.
   * @param  argument: Not used
   * @retval None
   */
-/* USER CODE END Header_StartDefaultTask */
-void StartDefaultTask(void const * argument)
+/* USER CODE END Header_StartTask01 */
+void StartTask01(void const * argument)
 {
-  /* USER CODE BEGIN StartDefaultTask */
+  /* USER CODE BEGIN StartTask01 */
     /* Infinite loop */
     for (;;) {
         osDelay(1000);
         HAL_GPIO_TogglePin(LED0_GPIO_Port, LED0_Pin);
     }
-  /* USER CODE END StartDefaultTask */
+  /* USER CODE END StartTask01 */
+}
+
+/* USER CODE BEGIN Header_StartTask02 */
+/**
+* @brief Function implementing the Task02 thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_StartTask02 */
+void StartTask02(void const * argument)
+{
+  /* USER CODE BEGIN StartTask02 */
+    /* Infinite loop */
+    for (;;) {
+        osDelay(1000);
+        Log_info("this is task 2");
+    }
+  /* USER CODE END StartTask02 */
 }
 
 /* Private application code --------------------------------------------------*/
