@@ -146,7 +146,7 @@ void MX_FREERTOS_Init(void) {
 
   /* Create the thread(s) */
   /* definition and creation of Task01 */
-  osThreadDef(Task01, StartTask01, osPriorityNormal, 0, 128);
+  osThreadDef(Task01, StartTask01, osPriorityAboveNormal, 0, 128);
   Task01Handle = osThreadCreate(osThread(Task01), NULL);
 
   /* definition and creation of Task02 */
@@ -171,7 +171,9 @@ void StartTask01(void const * argument)
   /* USER CODE BEGIN StartTask01 */
     /* Infinite loop */
     for (;;) {
-        osDelay(1000);
+        for (int i = 0; i < 100000000; ++i) {
+
+        }
         HAL_GPIO_TogglePin(LED0_GPIO_Port, LED0_Pin);
     }
   /* USER CODE END StartTask01 */
