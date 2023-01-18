@@ -24,7 +24,6 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include <stdio.h>
 #include "log.h"
 /* USER CODE END Includes */
 
@@ -96,8 +95,7 @@ int main(void)
 
   /* USER CODE END 2 */
 
-  /* Init scheduler */
-  osKernelInitialize();  /* Call init function for freertos objects (in freertos.c) */
+  /* Call init function for freertos objects (in freertos.c) */
   MX_FREERTOS_Init();
 
   /* Start scheduler */
@@ -110,16 +108,6 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-        if (uart1ReceiveData.receiveSuccess) {
-            HAL_UART_Transmit(uart2ReceiveData.handle, uart1ReceiveData.data, uart1ReceiveData.dataLen,
-                              100);
-            Uart_Receive_M4255_Clean(&uart1ReceiveData);
-        }
-        if (uart2ReceiveData.receiveSuccess) {
-            HAL_UART_Transmit(uart1ReceiveData.handle, uart2ReceiveData.data, uart2ReceiveData.dataLen,
-                              100);
-            Uart_Receive_M4255_Clean(&uart2ReceiveData);
-        }
     }
   /* USER CODE END 3 */
 }
@@ -208,7 +196,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 void Error_Handler(void)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
-    /* User can add his own implementation to report the HAL error return state */
+/* User can add his own implementation to report the HAL error return state */
     __disable_irq();
     while (1) {
     }
@@ -226,8 +214,8 @@ void Error_Handler(void)
 void assert_failed(uint8_t *file, uint32_t line)
 {
   /* USER CODE BEGIN 6 */
-  /* User can add his own implementation to report the file name and line number,
-     ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
+/* User can add his own implementation to report the file name and line number,
+   ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
   /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */
