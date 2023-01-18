@@ -54,7 +54,7 @@ osThreadId dataPushTaskHandle;
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
-
+void mqtt_sample(void);
 /* USER CODE END FunctionPrototypes */
 
 void DataUpdateTask(void const *argument);
@@ -138,15 +138,17 @@ void MX_FREERTOS_Init(void) {
 
     /* Create the thread(s) */
     /* definition and creation of dataUpdateTask */
-    osThreadDef(dataUpdateTask, DataUpdateTask, osPriorityNormal, 0, 1024);
-    dataUpdateTaskHandle = osThreadCreate(osThread(dataUpdateTask), NULL);
+//    osThreadDef(dataUpdateTask, DataUpdateTask, osPriorityNormal, 0, 1024);
+//    dataUpdateTaskHandle = osThreadCreate(osThread(dataUpdateTask), NULL);
 
     /* definition and creation of dataPushTask */
-    osThreadDef(dataPushTask, DataPushTask, osPriorityIdle, 0, 1024);
-    dataPushTaskHandle = osThreadCreate(osThread(dataPushTask), NULL);
+//    osThreadDef(dataPushTask, DataPushTask, osPriorityIdle, 0, 1024);
+//    dataPushTaskHandle = osThreadCreate(osThread(dataPushTask), NULL);
 
     /* USER CODE BEGIN RTOS_THREADS */
     /* add threads, ... */
+//    mqtt_sample();
+
     /* USER CODE END RTOS_THREADS */
 
 }
@@ -160,13 +162,13 @@ void MX_FREERTOS_Init(void) {
 /* USER CODE END Header_DataUpdateTask */
 void DataUpdateTask(void const *argument) {
     /* USER CODE BEGIN DataUpdateTask */
-    char *tempStr = "AT \r\n";
-    HAL_UART_Transmit(&huart3, tempStr, sizeof(tempStr), 100);
+//    char *tempStr = "AT \r\n";
+//    HAL_UART_Transmit(&huart3, tempStr, sizeof(tempStr), 100);
     /* Infinite loop */
     for (;;) {
-        ulTaskNotifyTake(pdTRUE, portMAX_DELAY);
-        HAL_UART_Transmit(&huart1, uart3ReceiveData.data, uart3ReceiveData.dataLen, 100);
-        Uart_Receive_CRLF_Clean(&uart3ReceiveData);
+//        ulTaskNotifyTake(pdTRUE, portMAX_DELAY);
+//        HAL_UART_Transmit(&huart1, uart3ReceiveData.data, uart3ReceiveData.dataLen, 100);
+//        Uart_Receive_CRLF_Clean(&uart3ReceiveData);
     }
     /* USER CODE END DataUpdateTask */
 }

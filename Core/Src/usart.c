@@ -298,13 +298,8 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
         Uart_Receive_M4255_Callback(&uart2ReceiveData);
     }
     if (huart == &huart3) {
-        uint8_t ch;
-        if (__HAL_UART_GET_FLAG(&huart3, UART_FLAG_RXNE) == SET) {
-            ch = (uint8_t) READ_REG(huart3.Instance->DR) & 0xFF;
-            if (RINGBUFF_OK != ring_buff_push_data(&g_ring_buff, &ch, 1)) {
-            }
-        }
-        __HAL_UART_CLEAR_PEFLAG(&huart3);
+        HAL_UART_Receive_IT(uart3ReceiveData.handle, (uint8_t *) &uart3ReceiveData.itBuff, 1);
+        ring_buff_push_data(&g_ring_buff, &uart3ReceiveData.itBuff, 1);
     }
 
 }

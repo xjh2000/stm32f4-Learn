@@ -52,12 +52,18 @@
 void SystemClock_Config(void);
 void MX_FREERTOS_Init(void);
 /* USER CODE BEGIN PFP */
-
+#define PUTCHAR_PROTOTYPE int __io_putchar(int ch)
+uint8_t g_uart1_transmit_buff[1];
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
+PUTCHAR_PROTOTYPE {
+    g_uart1_transmit_buff[0] = (uint8_t) ch;
+    HAL_UART_Transmit(&huart1, g_uart1_transmit_buff, 1, 100);
+    return ch;
+}
 /* USER CODE END 0 */
 
 /**
