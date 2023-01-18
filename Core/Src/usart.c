@@ -23,6 +23,9 @@
 
 /* USER CODE BEGIN 0 */
 #include "cmsis_os.h"
+#include "ringbuff.h"
+
+extern sRingbuff g_ring_buff;
 
 uint8_t uart1data[200];
 Uart_Receive_M4255 uart1ReceiveData = {
@@ -295,7 +298,13 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
         Uart_Receive_M4255_Callback(&uart2ReceiveData);
     }
     if (huart == &huart3) {
-        Uart_Receive_CRLF_Callback(&uart3ReceiveData);
+        uint8_t ch;
+        if (__HAL_UART_GET_FLAG(&huart3, UART_FLAG_RXNE) == SET) {
+            ch = (uint8_t) READ_REG(huart3.Instance->DR) & 0xFF;
+            if (RINGBUFF_OK != ring_buff_push_data(&g_ring_buff, &ch, 1)) {
+            }
+        }
+        __HAL_UART_CLEAR_PEFLAG(&huart3);
     }
 
 }
