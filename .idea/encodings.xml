@@ -2,6 +2,7 @@
 <project version="4">
   <component name="Encoding" defaultCharsetForPropertiesFiles="UTF-8">
     <file url="file://$PROJECT_DIR$/Core/Src/stm32f4xx_it.c" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Middlewares/Third_Party/qcloud-iot-sdk-tencent-at-based/include/qcloud_iot_export_data_template.h" charset="UTF-8" />
     <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>

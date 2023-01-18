@@ -55,6 +55,7 @@ osThreadId dataPushTaskHandle;
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
 void mqtt_sample(void);
+void data_template_sample(void);
 /* USER CODE END FunctionPrototypes */
 
 void DataUpdateTask(void const *argument);
@@ -147,8 +148,8 @@ void MX_FREERTOS_Init(void) {
 
     /* USER CODE BEGIN RTOS_THREADS */
     /* add threads, ... */
-//    mqtt_sample();
 
+//    data_template_sample();
     /* USER CODE END RTOS_THREADS */
 
 }
