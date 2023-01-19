@@ -1,0 +1,6 @@
+{
+  "RequestId": $RequestId,
+  "ProductId": $ProductId,
+  "DeviceName": $DeviceName,
+  "MsgContent": $MsgContent
+}
