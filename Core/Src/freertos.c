@@ -149,7 +149,7 @@ void MX_FREERTOS_Init(void) {
     /* USER CODE BEGIN RTOS_THREADS */
     /* add threads, ... */
 
-//    data_template_sample();
+    data_template_sample();
     /* USER CODE END RTOS_THREADS */
 
 }
