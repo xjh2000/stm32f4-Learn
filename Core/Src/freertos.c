@@ -28,6 +28,7 @@
 
 #include "usart.h"
 #include "at_log.h"
+#include "qcloud_iot_export_data_template.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -49,28 +50,25 @@
 /* USER CODE BEGIN Variables */
 
 /* USER CODE END Variables */
-osThreadId dataUpdateTaskHandle;
 osThreadId dataPushTaskHandle;
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
 void mqtt_sample(void);
+
 void data_template_sample(void);
+
 /* USER CODE END FunctionPrototypes */
 
-void DataUpdateTask(void const *argument);
-
-void DataPushTask(void const *argument);
+void DataPushTask(void const * argument);
 
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
 /* GetIdleTaskMemory prototype (linked to static allocation support) */
-void vApplicationGetIdleTaskMemory(StaticTask_t **ppxIdleTaskTCBBuffer, StackType_t **ppxIdleTaskStackBuffer,
-                                   uint32_t *pulIdleTaskStackSize);
+void vApplicationGetIdleTaskMemory( StaticTask_t **ppxIdleTaskTCBBuffer, StackType_t **ppxIdleTaskStackBuffer, uint32_t *pulIdleTaskStackSize );
 
 /* Hook prototypes */
 void vApplicationStackOverflowHook(xTaskHandle xTask, signed char *pcTaskName);
-
 void vApplicationMallocFailedHook(void);
 
 /* USER CODE BEGIN 4 */
@@ -117,61 +115,37 @@ void vApplicationGetIdleTaskMemory(StaticTask_t **ppxIdleTaskTCBBuffer, StackTyp
   * @retval None
   */
 void MX_FREERTOS_Init(void) {
-    /* USER CODE BEGIN Init */
+  /* USER CODE BEGIN Init */
 
-    /* USER CODE END Init */
+  /* USER CODE END Init */
 
-    /* USER CODE BEGIN RTOS_MUTEX */
+  /* USER CODE BEGIN RTOS_MUTEX */
     /* add mutexes, ... */
-    /* USER CODE END RTOS_MUTEX */
+  /* USER CODE END RTOS_MUTEX */
 
-    /* USER CODE BEGIN RTOS_SEMAPHORES */
+  /* USER CODE BEGIN RTOS_SEMAPHORES */
     /* add semaphores, ... */
-    /* USER CODE END RTOS_SEMAPHORES */
+  /* USER CODE END RTOS_SEMAPHORES */
 
-    /* USER CODE BEGIN RTOS_TIMERS */
+  /* USER CODE BEGIN RTOS_TIMERS */
     /* start timers, add new ones, ... */
-    /* USER CODE END RTOS_TIMERS */
+  /* USER CODE END RTOS_TIMERS */
 
-    /* USER CODE BEGIN RTOS_QUEUES */
+  /* USER CODE BEGIN RTOS_QUEUES */
     /* add queues, ... */
-    /* USER CODE END RTOS_QUEUES */
+  /* USER CODE END RTOS_QUEUES */
 
-    /* Create the thread(s) */
-    /* definition and creation of dataUpdateTask */
-//    osThreadDef(dataUpdateTask, DataUpdateTask, osPriorityNormal, 0, 1024);
-//    dataUpdateTaskHandle = osThreadCreate(osThread(dataUpdateTask), NULL);
+  /* Create the thread(s) */
+  /* definition and creation of dataPushTask */
+  osThreadDef(dataPushTask, DataPushTask, osPriorityNormal, 0, 1024);
+  dataPushTaskHandle = osThreadCreate(osThread(dataPushTask), NULL);
 
-    /* definition and creation of dataPushTask */
-//    osThreadDef(dataPushTask, DataPushTask, osPriorityIdle, 0, 1024);
-//    dataPushTaskHandle = osThreadCreate(osThread(dataPushTask), NULL);
-
-    /* USER CODE BEGIN RTOS_THREADS */
+  /* USER CODE BEGIN RTOS_THREADS */
     /* add threads, ... */
 
     data_template_sample();
-    /* USER CODE END RTOS_THREADS */
+  /* USER CODE END RTOS_THREADS */
 
-}
-
-/* USER CODE BEGIN Header_DataUpdateTask */
-/**
-  * @brief  Function implementing the dataUpdateTask thread.
-  * @param  argument: Not used
-  * @retval None
-  */
-/* USER CODE END Header_DataUpdateTask */
-void DataUpdateTask(void const *argument) {
-    /* USER CODE BEGIN DataUpdateTask */
-//    char *tempStr = "AT \r\n";
-//    HAL_UART_Transmit(&huart3, tempStr, sizeof(tempStr), 100);
-    /* Infinite loop */
-    for (;;) {
-//        ulTaskNotifyTake(pdTRUE, portMAX_DELAY);
-//        HAL_UART_Transmit(&huart1, uart3ReceiveData.data, uart3ReceiveData.dataLen, 100);
-//        Uart_Receive_CRLF_Clean(&uart3ReceiveData);
-    }
-    /* USER CODE END DataUpdateTask */
 }
 
 /* USER CODE BEGIN Header_DataPushTask */
@@ -181,13 +155,29 @@ void DataUpdateTask(void const *argument) {
 * @retval None
 */
 /* USER CODE END Header_DataPushTask */
-void DataPushTask(void const *argument) {
-    /* USER CODE BEGIN DataPushTask */
+void DataPushTask(void const * argument)
+{
+  /* USER CODE BEGIN DataPushTask */
     /* Infinite loop */
     for (;;) {
-        osDelay(1);
+        ulTaskNotifyTake(pdTRUE, portMAX_DELAY);
+        Uart_Receive_M4255_Clean(&uart2ReceiveData);
+        // [5-6] ic card type
+        // [7-10] ic card number
+        // [11-26] 16 block data
+        uint8_t *sg_IcCartAuth_IcKey = get_sg_IcCartAuth_IcKey();
+        for (int i = 0; i < 16; ++i) {
+            sg_IcCartAuth_IcKey[i] = uart2ReceiveData.data[i + 11];
+        }
+        sg_IcCartAuth_IcKey[16] = '\0';
+
+        // trigger event
+        void *client = get_template_client();
+        IOT_Event_setFlag(client, FLAG_EVENT0);
+
+
     }
-    /* USER CODE END DataPushTask */
+  /* USER CODE END DataPushTask */
 }
 
 /* Private application code --------------------------------------------------*/
