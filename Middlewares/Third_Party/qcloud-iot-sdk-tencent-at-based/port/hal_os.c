@@ -23,9 +23,9 @@
 #ifdef  DEBUG_DEV_INFO_USED
 
 /* 产品名称, 与云端同步设备状态时需要  */
-static char sg_product_id[MAX_SIZE_OF_PRODUCT_ID + 1] = "4L6XFHPR7C";
+static char sg_product_id[MAX_SIZE_OF_PRODUCT_ID + 1] = "Z1TZWOPCLK";
 /* 设备名称, 与云端同步设备状态时需要 */
-static char sg_device_name[MAX_SIZE_OF_DEVICE_NAME + 1] = "device";
+static char sg_device_name[MAX_SIZE_OF_DEVICE_NAME + 1] = "demo";
 
 #ifdef DEV_DYN_REG_ENABLED
 /* 产品密钥, 若使能动态注册功能，控制台生成，必填。若不使能，则不用赋值  */
@@ -39,7 +39,7 @@ static char sg_device_cert_file_name[MAX_SIZE_OF_DEVICE_CERT_FILE_NAME + 1]     
 static char sg_device_privatekey_file_name[MAX_SIZE_OF_DEVICE_KEY_FILE_NAME + 1] = "YOUR_DEVICE_NAME_private.key";
 #else
 /* 设备密钥, TLS PSK认证方式*/
-static char sg_device_secret[MAX_SIZE_OF_DEVICE_SERC + 1] = "oTSS7uCqllf5+psNQRNDeg==";
+static char sg_device_secret[MAX_SIZE_OF_DEVICE_SERC + 1] = "lGzb6ribKB0nSSrAprSHOg==";
 #endif
 
 
